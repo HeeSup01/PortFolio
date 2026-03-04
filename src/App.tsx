@@ -9,7 +9,7 @@ import { Contact } from './sections/Contact';
 
 function App() {
   return (
-    <>
+    <main>
       <Hero />
       <About />
       <TechStack />
@@ -18,7 +18,7 @@ function App() {
       <Experience />
       <Growth />
       <Contact />
-    </>
+    </main>
   );
 }
 
