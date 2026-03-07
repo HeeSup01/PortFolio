@@ -1,3 +1,5 @@
+import React from 'react';
+
 export function EngineeringThinking() {
   return (
     <section id="engineering-thinking">
@@ -8,7 +10,7 @@ export function EngineeringThinking() {
           <strong>1. Problem · 문제 정의</strong>
           <p style={{ marginTop: '0.25rem' }}>
             사용자가 포트폴리오를 볼 때 &quot;이 사람이 무엇을 잘하는지&quot;를 빠르게 이해하지 못하는
-            문제가 있었습니다. 정보가 흩어져 있어, 정체성·기술·프로젝트·성장 방향이 한눈에 들어오지
+            문제가 있었습니다. 정보가 흩어져 있어, 정체성·기술·프로젝트·성장 방         향이 한눈에 들어오지
             않았습니다.
           </p>
         </div>
