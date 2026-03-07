@@ -1,3 +1,5 @@
+import { useState, useEffect } from 'react';
+
 const SECTIONS = [
   { id: 'hero', label: 'Hero' },
   { id: 'about', label: 'About' },
@@ -10,6 +12,27 @@ const SECTIONS = [
 ] as const;
 
 export function Nav() {
+  const [activeId, setActiveId] = useState<string>('hero');
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const intersecting = entries.filter((e) => e.isIntersecting);
+        if (intersecting.length === 0) return;
+        const topmost = intersecting.reduce((a, b) =>
+          a.boundingClientRect.top <= b.boundingClientRect.top ? a : b
+        );
+        setActiveId(topmost.target.id);
+      },
+      { rootMargin: '-30% 0px -60% 0px', threshold: 0 }
+    );
+    SECTIONS.forEach(({ id }) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <nav
       className="nav"
@@ -41,9 +64,9 @@ export function Nav() {
           <li key={id}>
             <a
               href={`#${id}`}
-              className="nav-link"
+              className={`nav-link ${activeId === id ? 'nav-link--active' : ''}`}
               style={{
-                color: '#d1d5db',
+                color: activeId === id ? '#f9fafb' : '#d1d5db',
                 textDecoration: 'none',
                 padding: '0.35rem 0.5rem',
                 borderRadius: '0.375rem'

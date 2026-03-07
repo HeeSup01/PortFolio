@@ -21,7 +21,8 @@ body {
   padding: 0.75rem 10vw;
 }
 
-.nav-link:hover {
+.nav-link:hover,
+.nav-link--active {
   color: #f9fafb;
   background: rgba(55, 65, 81, 0.5);
 }
