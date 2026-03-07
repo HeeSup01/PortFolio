@@ -1,3 +1,4 @@
+import { Nav } from './components/Nav';
 import { Hero } from './sections/Hero';
 import { About } from './sections/About';
 import { TechStack } from './sections/TechStack';
@@ -9,7 +10,9 @@ import { Contact } from './sections/Contact';
 
 function App() {
   return (
-    <main>
+    <>
+      <Nav />
+      <main>
       <Hero />
       <About />
       <TechStack />
@@ -19,6 +22,7 @@ function App() {
       <Growth />
       <Contact />
     </main>
+    </>
   );
 }
 
