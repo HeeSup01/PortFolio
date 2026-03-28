@@ -1,0 +1,97 @@
+<svg width="500" height="460" viewBox="0 0 500 460" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="brand" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3b82f6"/>
+      <stop offset="100%" stop-color="#8b5cf6"/>
+    </linearGradient>
+    <linearGradient id="textGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#3b82f6"/>
+      <stop offset="100%" stop-color="#8b5cf6"/>
+    </linearGradient>
+    <radialGradient id="irisGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#60a5fa"/>
+      <stop offset="100%" stop-color="#7c3aed"/>
+    </radialGradient>
+    <filter id="centerGlow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="10" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="dotGlow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="500" height="460" rx="90" fill="#0f172a"/>
+  <rect width="500" height="460" rx="90" fill="none" stroke="url(#brand)" stroke-width="2" opacity="0.35"/>
+
+  <!-- Subtle ambient glow blobs -->
+  <circle cx="80" cy="80" r="70" fill="#3b82f6" opacity="0.05"/>
+  <circle cx="430" cy="370" r="90" fill="#8b5cf6" opacity="0.06"/>
+
+  <!-- ── EYE SHAPE ── -->
+  <path d="M 68,210 C 160,124 340,124 432,210 C 340,296 160,296 68,210 Z"
+        fill="#1e293b" opacity="0.45"/>
+  <!-- Top arc -->
+  <path d="M 68,210 C 160,124 340,124 432,210"
+        fill="none" stroke="url(#brand)" stroke-width="4.5" stroke-linecap="round"/>
+  <!-- Bottom arc -->
+  <path d="M 68,210 C 160,296 340,296 432,210"
+        fill="none" stroke="url(#brand)" stroke-width="4.5" stroke-linecap="round"/>
+  <!-- Corner glow dots -->
+  <circle cx="68"  cy="210" r="7" fill="#3b82f6" filter="url(#dotGlow)"/>
+  <circle cx="432" cy="210" r="7" fill="#8b5cf6" filter="url(#dotGlow)"/>
+
+  <!-- ── PIPELINE CONNECTORS ── -->
+  <!-- Left line + arrow -->
+  <line x1="176" y1="210" x2="211" y2="210" stroke="#3b82f6" stroke-width="2.5" opacity="0.9"/>
+  <polygon points="209,204 221,210 209,216" fill="#3b82f6"/>
+  <!-- Right line + arrow -->
+  <line x1="289" y1="210" x2="324" y2="210" stroke="#8b5cf6" stroke-width="2.5" opacity="0.9"/>
+  <polygon points="322,204 334,210 322,216" fill="#8b5cf6"/>
+
+  <!-- ── LEFT NODE — Source / Database ── -->
+  <circle cx="148" cy="210" r="32" fill="#3b82f6" opacity="0.07"/>
+  <circle cx="148" cy="210" r="26" fill="#0a1628" stroke="#3b82f6" stroke-width="2.5"/>
+  <!-- DB cylinder -->
+  <ellipse cx="148" cy="202" rx="11" ry="4.5" fill="#3b82f6"/>
+  <rect    x="137"  y="202"  width="22"  height="11" fill="#3b82f6" opacity="0.55"/>
+  <ellipse cx="148" cy="207" rx="11" ry="4.5" fill="#1d4ed8" opacity="0.85"/>
+  <ellipse cx="148" cy="213" rx="11" ry="4.5" fill="#3b82f6"/>
+
+  <!-- ── CENTER NODE — Iris / Pupil ── -->
+  <circle cx="250" cy="210" r="44" fill="url(#brand)" opacity="0.22" filter="url(#centerGlow)"/>
+  <circle cx="250" cy="210" r="36" fill="url(#brand)"/>
+  <circle cx="250" cy="210" r="22" fill="white" opacity="0.97"/>
+  <circle cx="250" cy="210" r="13" fill="#0f172a"/>
+  <circle cx="250" cy="210" r="7"  fill="url(#irisGrad)"/>
+  <!-- Shine -->
+  <circle cx="244" cy="204" r="4.5" fill="white" opacity="0.52"/>
+
+  <!-- ── RIGHT NODE — Output / Chart ── -->
+  <circle cx="352" cy="210" r="32" fill="#8b5cf6" opacity="0.07"/>
+  <circle cx="352" cy="210" r="26" fill="#130d2a" stroke="#8b5cf6" stroke-width="2.5"/>
+  <!-- Bar chart -->
+  <rect x="340" y="217" width="5" height="6"  rx="1" fill="#8b5cf6" opacity="0.65"/>
+  <rect x="348" y="211" width="5" height="12" rx="1" fill="#8b5cf6" opacity="0.82"/>
+  <rect x="356" y="204" width="5" height="19" rx="1" fill="#8b5cf6"/>
+  <line x1="338" y1="223" x2="365" y2="223" stroke="#8b5cf6" stroke-width="1.5" opacity="0.45"/>
+
+  <!-- ── TYPOGRAPHY ── -->
+  <text x="250" y="354"
+        font-family="Inter, system-ui, -apple-system, sans-serif"
+        font-weight="800" font-size="54" text-anchor="middle" letter-spacing="-1">
+    <tspan fill="white">Pipe</tspan><tspan fill="url(#textGrad)">Sight</tspan>
+  </text>
+  <text x="250" y="393"
+        font-family="Inter, system-ui, sans-serif"
+        font-weight="500" font-size="14" fill="#64748b"
+        text-anchor="middle" letter-spacing="5.5">PIPELINE MONITOR</text>
+</svg>
