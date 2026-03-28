@@ -1,29 +1,22 @@
-import { Nav } from './components/Nav';
-import { Hero } from './sections/Hero';
-import { About } from './sections/About';
-import { TechStack } from './sections/TechStack';
-import { Projects } from './sections/Projects';
-import { EngineeringThinking } from './sections/EngineeringThinking';
-import { Experience } from './sections/Experience';
-import { Growth } from './sections/Growth';
-import { Contact } from './sections/Contact';
+import { Hero } from './components/Hero';
+import { About } from './components/About';
+import { TechStack } from './components/TechStack';
+import { Projects } from './components/Projects';
+import { Engineering } from './components/Engineering';
+import { Experience } from './components/Experience';
 
-function App() {
+export default function App() {
   return (
-    <>
-      <Nav />
-      <main>
+    <div className="min-h-screen bg-white">
       <Hero />
       <About />
       <TechStack />
       <Projects />
-      <EngineeringThinking />
+      <Engineering />
       <Experience />
-      <Growth />
-      <Contact />
-    </main>
-    </>
+      <footer className="py-8 border-t border-gray-200 text-center text-gray-400 text-sm">
+        © 2026 조희섭. React & Tailwind CSS로 제작되었습니다.
+      </footer>
+    </div>
   );
 }
-
-export default App;
