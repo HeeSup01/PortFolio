@@ -1,4 +1,5 @@
-import { GitBranch } from 'lucide-react';
+import { useState } from 'react';
+import { GitBranch, ChevronDown } from 'lucide-react';
 import { Button } from './ui/button';
 import {
   ReactIcon, TypeScriptIcon, FlutterIcon, DartIcon, FirebaseIcon,
@@ -28,13 +29,13 @@ const projects = [
     subtitle: '경험치 기반 목표관리 애플리케이션',
     period: '2024.04 ~ 2024.11',
     type: '5인 팀 프로젝트',
-    role: 'PM · 캘린더 기능 · 랭킹/미션 시스템 · 프론트엔드 · 백엔드 연동',
+    role: '프론트엔드 전반 · Firebase 데이터 설계 · 백엔드 로직 전담',
     description:
-      '목표를 달성하면 경험치를 획득하고 레벨이 상승하는 성장 시스템 기반의 목표관리 앱입니다. 게시판 기능과 무한 스크롤 기반 단계적 로딩을 적용해 초기 로딩 시간을 약 40% 단축했습니다.',
+      '앱의 전반적인 프론트엔드 화면을 설계·구현하고, 각 화면에 필요한 Firebase Firestore 데이터 구조와 백엔드 로직을 함께 작성했습니다. 단순히 화면을 그리는 데 그치지 않고, 데이터가 어떤 컬렉션 구조로 저장되고 어떤 시점에 읽히고 갱신되는지를 직접 설계하며 화면과 데이터가 맞물리는 전체 흐름을 책임졌습니다.',
     highlights: [
-      '경험치·레벨 시스템으로 사용자의 지속적 참여 유도',
-      '무한 스크롤 단계적 로딩으로 초기 로딩 40% 단축',
-      'UI 먼저 반영 후 서버 동기화 방식으로 좋아요 데이터 불일치 해결',
+      '5개 게시판(자유·목표공유·팁·멘토링·홍보)에 게시글 CRUD·댓글·답글·좋아요·이미지 첨부·스크랩 구현',
+      '게시글 삭제 시 Firestore 하위 컬렉션(댓글·답글)이 남는 문제를 계단식 삭제 로직으로 해결',
+      'Firestore 복합 인덱스 직접 생성으로 다중 필드 정렬 버그 해소 · 17개 파일 구조 개선',
     ],
     tags: ['Flutter', 'Dart', 'Firebase', 'Figma'],
     githubUrl: 'https://github.com/Six-Tail/ToDoBest',
@@ -44,13 +45,13 @@ const projects = [
     subtitle: '음성 기반 AI 일기 생성 애플리케이션',
     period: '2025.03 ~ 2025.11',
     type: '4인 팀 프로젝트',
-    role: 'Figma UI 설계 · React Native 프론트엔드 전담 (8개 화면 · 21개 컴포넌트)',
+    role: 'React Native 프론트엔드 전담 · Figma UI 설계 · 음성 인식 모듈 · 감정 통계 시각화',
     description:
-      '사용자의 음성 기록을 AI가 분석해 감정이 담긴 일기를 자동으로 생성하는 모바일 앱입니다. 음성 → 텍스트 → AI 일기 생성 → 감정 수치화까지의 전 흐름을 React Native로 구현했습니다.',
+      '앱의 전체 화면 구조를 설계하고 Context API로 전역 상태 관리 구조를 잡았습니다. STT 라이브러리로 음성 인식 모듈을 구현하고, AsyncStorage와 NetInfo를 활용해 오프라인 데이터가 네트워크 복구 시 자동으로 서버에 동기화되는 훅을 개발했습니다. 이후 UI/UX 전면 개편과 감정 통계 페이지 구현을 주도했습니다.',
     highlights: [
-      'Android STT 10초 강제 종료 문제를 부분 인식 결과 누적 방식으로 해결',
-      '8개 화면 · 21개 재사용 컴포넌트 직접 구현',
-      'Figma 선 합의 방식 도입으로 기획-구현 간 간극 해소',
+      'Android STT 10초 강제 종료 문제를 플랫폼 정책 수준까지 추적해 부분 인식 결과 누적 방식으로 해결',
+      'Chart Kit · SVG로 일별·주간 감정 차트 등 감정 통계 컴포넌트 15개 신규 구현',
+      '기능 개발 전 화면 구성을 팀 전체와 먼저 합의하는 방식을 제안해 기획-구현 간 간극 해소',
     ],
     tags: ['React Native', 'TypeScript', 'FastAPI', 'Python', 'Firebase'],
     githubUrl: 'https://github.com/junwon515/ai-diary-app',
@@ -73,71 +74,91 @@ const projects = [
   },
 ];
 
+function ProjectCard({ project }: { project: typeof projects[number] }) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+      {/* 항상 보이는 헤더 영역 */}
+      <button
+        className="w-full text-left p-8 hover:bg-gray-50 transition-colors"
+        onClick={() => setOpen((prev) => !prev)}
+      >
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <div className="flex items-center gap-3 flex-wrap mb-1">
+              <h3 className="text-2xl text-gray-900">{project.title}</h3>
+              <span className="px-2 py-0.5 bg-gray-100 text-gray-500 rounded text-xs">
+                {project.type}
+              </span>
+              <span className="text-sm text-gray-400">{project.period}</span>
+            </div>
+            <p className="text-blue-600 mb-3">{project.subtitle}</p>
+            {/* 기술 태그 */}
+            <div className="flex flex-wrap gap-2">
+              {project.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="flex items-center gap-1.5 px-3 py-1 bg-blue-50 text-blue-700 rounded-md text-sm border border-blue-100"
+                >
+                  {ICON_MAP[tag] && <span className="flex-shrink-0">{ICON_MAP[tag]}</span>}
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+          <ChevronDown
+            className={`h-5 w-5 text-gray-400 flex-shrink-0 mt-1 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
+          />
+        </div>
+      </button>
+
+      {/* 펼쳐지는 상세 영역 */}
+      {open && (
+        <div className="px-8 pb-8 border-t border-gray-100">
+          <div className="pt-6 space-y-5">
+            {/* 담당 역할 */}
+            <div className="flex items-start gap-2 text-sm text-gray-500">
+              <span className="font-medium text-gray-400 flex-shrink-0">담당</span>
+              <span>{project.role}</span>
+            </div>
+
+            <p className="text-gray-600 leading-relaxed">{project.description}</p>
+
+            {/* 핵심 내용 */}
+            <ul className="space-y-2">
+              {project.highlights.map((h, i) => (
+                <li key={i} className="text-gray-600 text-sm flex items-start gap-2">
+                  <span className="text-blue-500 mt-0.5 flex-shrink-0">▸</span>
+                  <span>{h}</span>
+                </li>
+              ))}
+            </ul>
+
+            {/* GitHub 버튼 */}
+            <div className="pt-2">
+              <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
+                <Button variant="outline" size="sm" className="border-gray-300">
+                  <GitBranch className="mr-2 h-4 w-4" />
+                  코드 보기
+                </Button>
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function Projects() {
   return (
     <section className="py-24 px-6 bg-white">
       <div className="max-w-5xl mx-auto">
         <h2 className="text-4xl mb-12 text-gray-900 text-center">주요 프로젝트</h2>
-        <div className="space-y-8">
+        <div className="space-y-4">
           {projects.map((project) => (
-            <div
-              key={project.title}
-              className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow"
-            >
-              <div className="p-8">
-                {/* 헤더 */}
-                <div className="flex items-start justify-between gap-4 mb-1">
-                  <div className="flex items-center gap-3 flex-wrap">
-                    <h3 className="text-2xl text-gray-900">{project.title}</h3>
-                    <span className="px-2 py-0.5 bg-gray-100 text-gray-500 rounded text-xs">
-                      {project.type}
-                    </span>
-                    <span className="text-sm text-gray-400">{project.period}</span>
-                  </div>
-                  <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-                    <Button variant="outline" size="sm" className="border-gray-300 flex-shrink-0">
-                      <GitBranch className="mr-2 h-4 w-4" />
-                      코드 보기
-                    </Button>
-                  </a>
-                </div>
-
-                <p className="text-blue-600 mb-3">{project.subtitle}</p>
-
-                {/* 담당 역할 */}
-                <div className="flex items-start gap-2 mb-5 text-sm text-gray-500">
-                  <span className="font-medium text-gray-400 flex-shrink-0">담당</span>
-                  <span>{project.role}</span>
-                </div>
-
-                <p className="text-gray-600 mb-5 leading-relaxed">{project.description}</p>
-
-                {/* 핵심 내용 */}
-                <ul className="space-y-2 mb-6">
-                  {project.highlights.map((h, i) => (
-                    <li key={i} className="text-gray-600 text-sm flex items-start gap-2">
-                      <span className="text-blue-500 mt-0.5 flex-shrink-0">▸</span>
-                      <span>{h}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                {/* 기술 태그 (아이콘 포함) */}
-                <div className="flex flex-wrap gap-2">
-                  {project.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="flex items-center gap-1.5 px-3 py-1 bg-blue-50 text-blue-700 rounded-md text-sm border border-blue-100"
-                    >
-                      {ICON_MAP[tag] && (
-                        <span className="flex-shrink-0">{ICON_MAP[tag]}</span>
-                      )}
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
+            <ProjectCard key={project.title} project={project} />
           ))}
         </div>
       </div>

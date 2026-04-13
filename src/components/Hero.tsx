@@ -28,14 +28,14 @@ export function Hero() {
         <div className="mb-10">
           <div className="inline-block mb-4">
             <span className="px-4 py-1.5 bg-white/10 text-blue-100 text-sm rounded-full border border-white/20">
-              프론트엔드 개발자
+              소프트웨어 개발자
             </span>
           </div>
           <h1 className="text-5xl md:text-7xl mb-5 text-white font-light tracking-wide">
             조희섭
           </h1>
           <p className="text-lg md:text-xl text-blue-100 max-w-2xl mx-auto leading-relaxed">
-            사용자 경험을 고민하고, 문제를 끝까지 해결하는 개발자입니다
+            기술의 동작 원리를 탐구하고, 문제를 구조적으로 해결하는 개발자입니다
           </p>
         </div>
 
