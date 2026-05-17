@@ -4,8 +4,15 @@ import { Button } from './ui/button';
 import {
   ReactIcon, TypeScriptIcon, FlutterIcon, DartIcon, FirebaseIcon,
   FastAPIIcon, PythonIcon, PostgreSQLIcon, DockerIcon, AirflowIcon,
-  GrafanaIcon, FigmaIcon,
+  GrafanaIcon, FigmaIcon, OpenAIIcon,
 } from '../lib/tech-icons';
+
+import dashboard from '../assets/01_dashboard_full.png';
+import grafana from '../assets/08_grafana_dashboard.jpeg';
+import yamlDsl from '../assets/09_dsl_yaml_config.jpeg';
+import etlLog from '../assets/10_etl_execution_log.jpeg';
+import todobestVideo from '../assets/ToDoBest.mp4';
+import aiDiaryVideo from '../assets/Ai감정다이어리_시연.mp4';
 
 const ICON_MAP: Record<string, JSX.Element> = {
   Flutter: <FlutterIcon size={16} />,
@@ -21,9 +28,24 @@ const ICON_MAP: Record<string, JSX.Element> = {
   PostgreSQL: <PostgreSQLIcon size={16} />,
   Docker: <DockerIcon size={16} />,
   Grafana: <GrafanaIcon size={16} />,
+  'OpenAI API': <OpenAIIcon size={16} />,
 };
 
-const projects = [
+type Screenshot = { src: string; caption: string };
+
+const projects: {
+  title: string;
+  subtitle: string;
+  period: string;
+  type: string;
+  role: string;
+  description: string;
+  highlights: string[];
+  tags: string[];
+  githubUrl: string;
+  video?: string;
+  screenshots?: Screenshot[];
+}[] = [
   {
     title: 'ToDoBest',
     subtitle: '경험치 기반 목표관리 애플리케이션',
@@ -39,6 +61,7 @@ const projects = [
     ],
     tags: ['Flutter', 'Dart', 'Firebase', 'Figma'],
     githubUrl: 'https://github.com/Six-Tail/ToDoBest',
+    video: todobestVideo,
   },
   {
     title: 'AI 감정 다이어리',
@@ -53,8 +76,9 @@ const projects = [
       'Chart Kit · SVG로 일별·주간 감정 차트 등 감정 통계 컴포넌트 15개 신규 구현',
       '기능 개발 전 화면 구성을 팀 전체와 먼저 합의하는 방식을 제안해 기획-구현 간 간극 해소',
     ],
-    tags: ['React Native', 'TypeScript', 'FastAPI', 'Python', 'Firebase'],
+    tags: ['React Native', 'TypeScript', 'FastAPI', 'Python', 'Firebase', 'OpenAI API', 'PostgreSQL'],
     githubUrl: 'https://github.com/junwon515/ai-diary-app',
+    video: aiDiaryVideo,
   },
   {
     title: 'PipeSight',
@@ -71,6 +95,12 @@ const projects = [
     ],
     tags: ['React', 'TypeScript', 'FastAPI', 'Python', 'Apache Airflow', 'PostgreSQL', 'Docker', 'Grafana'],
     githubUrl: 'https://github.com/HeeSup01/PipeSight',
+    screenshots: [
+      { src: dashboard, caption: '실시간 파이프라인 모니터링 대시보드' },
+      { src: grafana, caption: 'Grafana 연동 — 실행 현황 시계열 시각화' },
+      { src: yamlDsl, caption: 'YAML DSL — 선언적 파이프라인 정의' },
+      { src: etlLog, caption: 'ETL 실행 로그 — Extract → Transform → Load 각 단계별 행 수 변화, 적재 테이블, 실행 결과를 순서대로 출력' },
+    ],
   },
 ];
 
@@ -134,6 +164,33 @@ function ProjectCard({ project }: { project: typeof projects[number] }) {
                 </li>
               ))}
             </ul>
+
+            {/* 시연 영상 */}
+            {project.video && (
+              <video
+                src={project.video}
+                controls
+                className="w-full rounded-md border border-gray-200"
+              />
+            )}
+
+            {/* 스크린샷 갤러리 */}
+            {project.screenshots && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                {project.screenshots.map((shot, i) => (
+                  <figure key={i} className="m-0">
+                    <img
+                      src={shot.src}
+                      alt={shot.caption}
+                      className="w-full rounded-md border border-gray-200 object-cover"
+                    />
+                    <figcaption className="mt-1 text-xs text-gray-400 leading-snug">
+                      {shot.caption}
+                    </figcaption>
+                  </figure>
+                ))}
+              </div>
+            )}
 
             {/* GitHub 버튼 */}
             <div className="pt-2">
